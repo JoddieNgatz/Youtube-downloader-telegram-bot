@@ -1,13 +1,13 @@
 #@Created by JoddieNgatz
 #Github https://github.com/JoddieNgatz/Youtube-downloader-telegram-bot
 # import everything
-# import everything
 from flask import Flask, request
 import re
 from time import sleep
 import telegram
 #import youtube_dl
 import pafy
+
 
 from telegramB.credentials import bot_token, bot_user_name,URL
 
@@ -40,30 +40,37 @@ def respond():
    if text == "/start":
        # print the welcoming message
        bot_welcome = """
-       Welcome to Youtube downloader bot, this bot will provide a downloadable link of any video url you give and a video. 
+       Welcome to Youtube downloader bot, this bot will provide a downloadable link of any youtube url you give and a video. 
        Source code can be found here: github link https://github.com/JoddieNgatz/Youtube-downloader-telegram-bot
        """
        # send the welcoming message
        bot.sendChatAction(chat_id=chat_id, action="typing")
        sleep(1.5)
        bot.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
-
+       
+       bot_intro = """If youtube file is larger than 50MB due to telegram bot restricitions kindly click download link and proceed to download. 
+       Once link is clicked on bottom extreme right of video player look for 3 dots tap them then tap download."""
+       # send the welcoming message
+       bot.sendChatAction(chat_id=chat_id, action="typing")
+       sleep(1.5)
+       bot.sendMessage(chat_id=chat_id, text=bot_intro, reply_to_message_id=msg_id)
    elif text.startswith('https://') or text.startswith('www.') or text.startswith('youtu'):
+        
+        url = text
+        
         reply = "Recieved file. Processing......"
-      
+    
         bot.sendMessage(chat_id=chat_id, text=reply, reply_to_message_id=msg_id)
-
-        #pafy lib resource used: https://pypi.org/project/pafy/
-
-        url = text;
-        video = pafy.new(url)
-        # print author & video length
-        print(video.author, video.length)
-        best = video.getbest(preftype="mp4")
-        downloadLink = best.url
-        bot.sendMessage(chat_id=chat_id, text=downloadLink, reply_to_message_id=msg_id)
-        bot.sendVideo(chat_id=chat_id, video=best, reply_to_message_id=msg_id)
-
+        
+        try:
+          video = pafy.new(url)
+          # print author & video length
+          print(video.author, video.length)
+          best = video.getbest(preftype="mp4")
+          downloadLink = best.url
+          bot.sendMessage(chat_id=chat_id, text=downloadLink, reply_to_message_id=msg_id)
+        except:
+            bot.sendMessage(chat_id=chat_id, text="This video cant be downloaded", reply_to_message_id=msg_id)
 
 
    else:
@@ -77,9 +84,6 @@ def hello_world():
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
-	#Resources used
-	#https://core.telegram.org/bots/webhooks
-	#https://github.com/python-telegram-bot/python-telegram-bot/issues/2003
    t = bot.setWebhook('{URL}{HOOK}'.format(URL=URL, HOOK=TOKEN))
    if t:
        return "webhook setup ok- running on {}".format(URL)
