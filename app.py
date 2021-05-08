@@ -37,6 +37,7 @@ def respond():
    # for debugging purposes only
    print("got text message :", text)
    # the first time you chat with the bot AKA the welcoming message
+   
    if text == "/start":
        # print the welcoming message
        bot_welcome = """
@@ -50,10 +51,14 @@ def respond():
        
        bot_intro = """If youtube file is larger than 50MB due to telegram bot restricitions kindly click download link and proceed to download. 
        Once link is clicked on bottom extreme right of video player look for 3 dots tap them then tap download."""
+       
        # send the welcoming message
        bot.sendChatAction(chat_id=chat_id, action="typing")
        sleep(1.5)
        bot.sendMessage(chat_id=chat_id, text=bot_intro, reply_to_message_id=msg_id)
+   
+
+  
    elif text.startswith('https://') or text.startswith('www.') or text.startswith('youtu'):
         
         url = text
@@ -92,7 +97,7 @@ def set_webhook():
 
 @app.route('/')
 def index():
-   return '.'
+   return '.=Home Route'
 
 
 if __name__ == '__main__':
