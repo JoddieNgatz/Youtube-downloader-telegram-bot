@@ -1,0 +1,28 @@
+#requiremnts.txt list of all packages u will be using 
+
+#we need  to creat a virtual environment if we dont want to intall gloabally
+#to create virtual env all it is is a folder
+#use pip intall virtualenv
+#####windows: python -m venv <folder_name> 
+####windows python -m venv <TELEGRAMBOT>
+#####windows python -m venv <venv>
+####linux virtualenv <folder_name>
+
+
+#using virtual env
+#windows systems
+#cmd= <floder_name>\Scripts\Activate.bat
+#POWERSHELL= <FOLDER_NAME>\Scripts\Activate.psi
+#Bash= ../<folder_name>/Scripts/activate
+#linux= <folder_name>/bin/activate
+
+#to install package pip install-r requirements.txt
+
+---This Bot will provide download link for a video
+_______________________________________________________
+Heruko
+pip freeze > requirements.txt - generate requirements.txt
+add to procfile web: gunicorn app:app
+heroku login || heroku login -i
+git init
+heroku git:remote -a {heroku-project-name}
