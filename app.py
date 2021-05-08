@@ -1,3 +1,6 @@
+#@Created by JoddieNgatz
+#Github https://github.com/JoddieNgatz/Youtube-downloader-telegram-bot
+# import everything
 # import everything
 from flask import Flask, request
 import re
@@ -38,7 +41,7 @@ def respond():
        # print the welcoming message
        bot_welcome = """
        Welcome to Youtube downloader bot, this bot will provide a downloadable link of any video url you give and a video. 
-       Source code can be found here: github link
+       Source code can be found here: github link https://github.com/JoddieNgatz/Youtube-downloader-telegram-bot
        """
        # send the welcoming message
        bot.sendChatAction(chat_id=chat_id, action="typing")
@@ -47,8 +50,11 @@ def respond():
 
    elif text.startswith('https://') or text.startswith('www.') or text.startswith('youtu'):
         reply = "Recieved file. Processing......"
-    
+      
         bot.sendMessage(chat_id=chat_id, text=reply, reply_to_message_id=msg_id)
+
+        #pafy lib resource used: https://pypi.org/project/pafy/
+
         url = text;
         video = pafy.new(url)
         # print author & video length
@@ -71,6 +77,9 @@ def hello_world():
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
+	#Resources used
+	#https://core.telegram.org/bots/webhooks
+	#https://github.com/python-telegram-bot/python-telegram-bot/issues/2003
    t = bot.setWebhook('{URL}{HOOK}'.format(URL=URL, HOOK=TOKEN))
    if t:
        return "webhook setup ok- running on {}".format(URL)
